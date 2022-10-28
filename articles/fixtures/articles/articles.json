@@ -1,0 +1,38 @@
+[
+{
+    "model": "articles.article",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "title": "ff",
+        "content": "fff",
+        "created_at": "2022-03-25T09:50:01.548Z",
+        "updated_at": "2022-03-25T09:50:01.548Z",
+        "like_users": []
+    }
+},
+{
+    "model": "articles.article",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "title": "안녕하세요",
+        "content": "저는 ***조장*** 나연이에요",
+        "created_at": "2022-10-28T05:11:05.855Z",
+        "updated_at": "2022-10-28T05:11:05.855Z",
+        "like_users": []
+    }
+},
+{
+    "model": "articles.article",
+    "pk": 3,
+    "fields": {
+        "user": 3,
+        "title": "조장님의 친절함에",
+        "content": "감동 받았습니다. 붐업! b",
+        "created_at": "2022-10-28T05:11:47.320Z",
+        "updated_at": "2022-10-28T05:11:47.320Z",
+        "like_users": []
+    }
+}
+]

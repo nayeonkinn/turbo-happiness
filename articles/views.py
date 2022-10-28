@@ -104,5 +104,17 @@ def comments_delete(request, article_pk, comment_pk):
 
 @require_POST
 def likes(request, article_pk):
-    # CODE HERE
-    pass
+    if request.user.is_authenticated:
+        article = get_object_or_404(Article, pk=article_pk)
+        if article.like_users.filter(pk=request.user.pk).exists():
+            article.like_users.remove(request.user)
+            is_liked = False
+        else:
+            article.like_users.add(request.user)
+            is_liked = True
+        context = {
+            'is_liked' : is_liked,
+            'like_count' : article.like_users.count(),
+        }
+        return JsonResponse(context)
+    return redirect('articles:login')

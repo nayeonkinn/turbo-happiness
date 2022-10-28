@@ -38,6 +38,35 @@
 
 {% block script %}
   <script>
-    // CODE HERE
+    const forms = document.querySelectorAll('.like-form')
+    const csrftoken = document.querySelector('input[name=csrfmiddlewaretoken]').value
+
+    forms.forEach((form) => {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault()
+        const articleId = event.target.dataset.articleId
+
+        axios({
+          method : 'POST',
+          url : `http://127.0.0.1:8000/articles/${articleId}/likes/`,
+          headers : {'X-CSRFToken' : csrftoken}
+        })
+          .then((response) => {
+            const likeBtn = document.querySelector(`#like-${articleId}`)
+            const isLiked = response.data.is_liked
+            if (isLiked === true) {
+              likeBtn.innerText = '좋아요 취소'
+            } else {
+              likeBtn.innerText = '좋아요'
+            }
+            
+            const likeCount = document.querySelector(`#like-count-${articleId}`)
+            likeCount.innerText = response.data.like_count
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      })
+    })
   </script>
 {% endblock script %}

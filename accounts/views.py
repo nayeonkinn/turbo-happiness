@@ -11,6 +11,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from .forms import CustomUserChangeForm, CustomUserCreationForm
+from django.http import JsonResponse
 
 # Create your views here.
 @require_http_methods(['GET', 'POST'])
@@ -109,5 +110,22 @@ def profile(request, username):
 
 @require_POST
 def follow(request, user_pk):
-    # CODE HERE
-    pass
+    if request.user.is_authenticated:
+        User = get_user_model()
+        me = request.user
+        you = User.objects.get(pk=user_pk)
+
+        if me != you:
+            if you.followers.filter(pk=me.pk).exists():
+                you.followers.remove(me)
+                is_followed = False
+            else:
+                you.followers.add(me)
+                is_followed = True
+            context = {
+                'is_followed': is_followed,
+                'followers_count': you.followers.count(),
+            }
+            return JsonResponse(context)
+        # return redirect('accounts:profile', you.username)
+    return redirect('accounts:login')
